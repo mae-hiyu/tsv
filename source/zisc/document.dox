@@ -1,0 +1,13 @@
+/*!
+ \namespace zisc
+ \brief まとまりのないクラスや関数などの集まり
+ \details
+ No detailed.
+ */
+
+/*!
+ \namespace zisc::inner
+ \brief Ziscライブラリの内部でのみ使われるクラスや関数など
+ \details
+ No detailed.
+ */

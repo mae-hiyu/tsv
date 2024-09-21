@@ -1,0 +1,51 @@
+/*!
+ \file reflect_config.h
+ \author takemura
+ */
+
+#ifndef _REFLECT_REFLECT_CONFIG_H_
+#define _REFLECT_REFLECT_CONFIG_H_
+
+/* General */
+/*const constant float kPi = (float)3.14159265358979323846;*/
+const constant float kPi = 3.141593f;
+/* Color */
+/* Image */
+const constant size_t kDeviceSize = REFLECT_DEVICE_SIZE;
+const constant size_t kWidthResolution = REFLECT_WIDTH_RESOLUTION;
+const constant size_t kHeightResolution = REFLECT_HEIGHT_RESOLUTION;
+const constant size_t kPixelSize = kWidthResolution * kHeightResolution;
+const constant size_t kDevicePixelSize = kPixelSize / kDeviceSize;
+/* Spectra */
+const constant ushort kShortestWavelength = @REFLECT_SHORTEST_WAVELENGTH@;
+const constant ushort kLongestWavelength = @REFLECT_LONGEST_WAVELENGTH@;
+const constant ushort kWavelengthRange = kLongestWavelength - kShortestWavelength;
+const constant ushort kWavelengthResolution = @REFLECT_WAVELENGTH_RESOLUTION@;
+const constant size_t kSpectraSize = kWavelengthRange / kWavelengthResolution;
+                                 
+/* Material */
+/* Emiter */
+const constant ushort kNonEmitterIndex = REFLECT_EMITTER_SIZE;
+const constant size_t kNumOfLightSources = REFLECT_LIGHT_SOURCE_SIZE;
+/* Surface scattering model */
+const constant uchar kDiffuseSurfaceModel = 0;
+const constant uchar kSpecularSurfaceModel = 1;
+const constant uchar kGlossySurfaceModel = 2;
+/* Surface scattering */
+const constant uchar kSmoothDiffuse = 0;
+/* Object */
+const constant size_t kMaxNodeObjects = @max_node_objects@;
+const constant uint kNonObjectIndex = REFLECT_NON_OBJECT_INDEX;
+/* Geometry */
+const constant uchar kPlaneObject = 0;
+const constant uchar kSphereObject = 1;
+const constant uchar kFlatMeshObject = 2;
+/* Sampling */
+const constant size_t kSpectraSampleSize = @spectra_sample_size@;
+const constant float kWavelengthInterval = (float)kSpectraSize /
+                                           (float)kSpectraSampleSize;
+const constant float kPrimaryWavelengthProbability = 
+    1.0f / (float)kSpectraSampleSize;
+typedef float@spectra_sample_size@ IntensitySamples;
+
+#endif /* _REFLECT_REFLECT_CONFIG_H_ */

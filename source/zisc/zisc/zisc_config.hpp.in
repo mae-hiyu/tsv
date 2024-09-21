@@ -1,0 +1,17 @@
+/*!
+ \file zisc_config.hpp
+ \author takemura
+ */
+
+#ifndef _ZISC_CONFIG_HPP_
+#define _ZISC_CONFIG_HPP_
+
+// Standard C++ library
+#include <cstddef>
+
+constexpr std::size_t kZiscVersionMajor = @zisc_version_major@;
+constexpr std::size_t kZiscVersionMinor = @zisc_version_minor@;
+constexpr std::size_t kZiscVersionPatch = @zisc_version_patch@;
+constexpr char kZiscVersion[] = "@zisc_version@";
+
+#endif // _ZISC_CONFIG_HPP_

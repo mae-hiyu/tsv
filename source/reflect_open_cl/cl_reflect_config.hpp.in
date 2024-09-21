@@ -1,0 +1,23 @@
+/*!
+  \file cl_reflect_config.hpp
+  \author takemura
+  */
+
+#ifndef _REFLECT_CL_CONFIG_HPP_
+#define _REFLECT_CL_CONFIG_HPP_
+
+#include "OpenCL/cl.hpp"
+
+namespace reflect {
+
+//! \addtogroup OpenCL
+//! \{
+
+// Sampling
+using ClIntensitySamples = cl_float@num_of_spectra_samples@;
+
+//! \} OpenCL
+
+} // namespace reflect
+
+#endif // _REFLECT_CL_CONFIG_HPP_

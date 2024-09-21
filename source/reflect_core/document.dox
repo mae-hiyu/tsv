@@ -1,0 +1,108 @@
+// Module
+
+/*!
+ \defgroup CameraModel
+ \brief Camera and film classes
+ \details
+ No detailed.
+ */
+
+/*!
+ \defgroup Color
+ \brief Manipulating spectra and RGB and some color spaces
+ \details
+ No detailed.
+ */
+
+/*!
+ \defgroup Data
+ \brief The definitions of data
+ \details
+ No detailed.
+ */
+
+/*!
+ \defgroup DataStructure
+ \brief The collection of spacial data structures
+ \details
+ No detailed.
+ */
+
+/*!
+ \defgroup Geometry
+ \brief Geometry classes
+ \details
+ No detailed.
+ */
+
+/*!
+ \defgroup Gui
+ \brief GUI classes and functions
+ \details
+ No detailed.
+ */
+
+/*!
+ \defgroup LinearAlgebra
+ \brief Linear glgebra classes and functions
+ \details
+ No detailed
+ */
+
+/*!
+ \defgroup Materail
+ \brief Material (BSDF, Light, Texture) classes and functions
+ \details
+ No detailed.
+ */
+
+/*!
+ \defgroup Renderer
+ \brief Core classes and functions and settings
+ \details
+ No detailed.
+ */
+
+/*!
+ \defgroup RenderingMethod
+ \brief RenderingMethod classes
+ \details
+ No detailed.
+ */
+
+/*!
+ \defgroup Sampling
+ \brief Sampling classes and functions
+ \details
+ No detailed.
+ */
+
+/*!
+ \defgroup Tonemapping
+ \brief Tonemapping classes
+ \details
+ No detailed.
+ */
+
+/*!
+ \defgroup Utility
+ \brief Helper functions
+ \details
+ No detailed.
+ */
+
+// Namespace
+
+/*!
+ \namespace reflect
+ \brief Classes and functions of Reflect
+ \details
+ No detailed.
+ */
+
+/*!
+ \namespace reflect::inner
+ \brief Helper classes and functions that are not used from the outside
+ \details
+ No detailed.
+ */
