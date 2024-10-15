@@ -30,6 +30,13 @@ XyzColor XyzColorMatchingFunction::toXyzInEmissiveCase(
   return XyzColor{x.sum(), y.sum(), z.sum()};
 }
 
+inline 
+XyzColor XyzColorMatchingFunction::toXyzInEmissiveCase(
+      const SpectralDistribution& xSpectra, const SpectralDistribution& ySpectra, const SpectralDistribution& zSpectra) const 
+{
+  return XyzColor{xSpectra.sum(), ySpectra.sum(), zSpectra.sum()};
+}
+
 /*!
   \details
   No detailed.
@@ -43,6 +50,16 @@ XyzColor XyzColorMatchingFunction::toXyzInReflectiveCase(
   auto y = y_bar_ * spectra * standard_illuminant_;
   auto z = z_bar_ * spectra * standard_illuminant_;
   return XyzColor{k * x.sum(), k * y.sum(), k * z.sum()};
+}
+
+inline
+XyzColor XyzColorMatchingFunction::toXyzInReflectiveCase(
+  const SpectralDistribution& xSpectra, const SpectralDistribution& ySpectra, const SpectralDistribution& zSpectra) const {
+  auto x = xSpectra * standard_illuminant_;
+  auto y = ySpectra * standard_illuminant_;
+  auto z = zSpectra * standard_illuminant_;
+
+  return XyzColor{x.sum(), y.sum(), z.sum()};
 }
 
 /*!

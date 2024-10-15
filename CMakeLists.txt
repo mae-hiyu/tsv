@@ -6,6 +6,7 @@ project(TSVRenderer VERSION 0.1.0 LANGUAGES C CXX)
 message(STATUS "## TSVRenderer version: ${PROJECT_VERSION}")
 
 
+set(CMAKE_PREFIX_PATH "/opt/homebrew/opt/qt@5")
 set(CMAKE_CXX_FLAGS -Wno-inconsistent-missing-override)
 include(${PROJECT_SOURCE_DIR}/cmake/project.cmake)
 SetProjectProperties()

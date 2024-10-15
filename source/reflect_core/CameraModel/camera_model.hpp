@@ -66,6 +66,11 @@ class CameraModel
                        const std::size_t y, 
                        const SampledSpectra<kSampleSize>& contribution);
 
+  template <std::size_t kSampleSize>
+  void addXYZSpectraContribution(const std::size_t x, 
+                       const std::size_t y, 
+                       const SampledSpectra<kSampleSize>& contribution);
+
   //! Return the film
   Film& film();
 

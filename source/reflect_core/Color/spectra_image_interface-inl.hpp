@@ -47,7 +47,7 @@ void SpectraImageInterface::addContribution(
   const auto image_type = type();
   switch (image_type) {
    case SpectraImageType::Spectra:
-    addSpectraContribution(this, x, y, contribution);
+    addXYZSpectraContribution(this, x, y, contribution);
     break;
    case SpectraImageType::Rgb:
     addRgbContribution(this, x, y, contribution);

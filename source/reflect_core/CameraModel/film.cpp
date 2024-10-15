@@ -57,7 +57,7 @@ void Film::initialize(const ColorSystem& color_system,
   if (color_system.isRgbRenderingMode())
     spectra_buffer_ = new RgbSpectraImage{width_, height_};
   else
-    spectra_buffer_ = new SpectraImage{width_, height_};
+    spectra_buffer_ = new XYZSpectraImage{width_, height_};
 }
 
 /*!

@@ -28,7 +28,7 @@ macro(SetCommandOptions)
   set(REFLECT_WAVELENGTH_RESOLUTION 1 CACHE STRING "")
 
   # Wavelength sample size
-  set(REFLECT_WAVELENGTH_SAMPLE_SIZE 400 CACHE STRING "")
+  set(REFLECT_WAVELENGTH_SAMPLE_SIZE 12 CACHE STRING "")
 
 
   # Validate options

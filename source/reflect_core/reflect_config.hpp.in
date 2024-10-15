@@ -77,7 +77,7 @@ constexpr std::size_t kGreenWavelength = 540;
 constexpr std::size_t kRedWavelength = 700;
 
 // For TSV Rendering
-constexpr std::size_t kXYZSampleSize = 2;
+constexpr std::size_t kXYZSampleSize = 4;
 constexpr std::size_t kLightSampleSize = 6;
 
 static_assert((kBlueWavelength - kShortestWavelength) % kWavelengthResolution == 0,

@@ -36,8 +36,12 @@ class XyzColorMatchingFunction
   //! In the emissive case, convert spectrums to XYZ using color matching function.
   XyzColor toXyzInEmissiveCase(const SpectralDistribution& spectra) const;
 
+  XyzColor toXyzInEmissiveCase(const SpectralDistribution& xSpectra, const SpectralDistribution& ySpectra, const SpectralDistribution& zSpectra) const;
+
   //! In the reflective or transmissive case, convert spectrums to XYZ
   XyzColor toXyzInReflectiveCase(const SpectralDistribution& spectra) const;
+
+  XyzColor toXyzInReflectiveCase(const SpectralDistribution& xSpectra, const SpectralDistribution& ySpectra, const SpectralDistribution& zSpectra) const;
 
   //! Return the x bar
   const SpectralDistribution& xBar() const;

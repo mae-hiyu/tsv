@@ -83,7 +83,7 @@ class SpectraImageInterface
 
 //! Add spectra contribution to image buffer
 template <std::size_t kSampleSize>
-void addSpectraContribution(SpectraImageInterface* image,
+void addXYZSpectraContribution(SpectraImageInterface* image,
                             const std::size_t x,
                             const std::size_t y,
                             const SampledSpectra<kSampleSize>& contribution);

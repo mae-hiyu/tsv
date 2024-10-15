@@ -41,6 +41,19 @@ void CameraModel::addContribution(const std::size_t x,
   \details
   No detailed.
   */
+template <std::size_t kSampleSize> inline
+void CameraModel::addXYZSpectraContribution(const std::size_t x, 
+                                  const std::size_t y, 
+                                  const SampledSpectra<kSampleSize>& contribution)
+{
+  auto& spectra_buffer = film_->spectraBuffer();
+  spectra_buffer.addContribution(x, y, contribution);
+}
+
+/*!
+  \details
+  No detailed.
+  */
 inline
 Film& CameraModel::film()
 {

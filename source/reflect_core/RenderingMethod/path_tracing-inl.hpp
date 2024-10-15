@@ -379,7 +379,7 @@ void PathTracing<kSampleSize>::traceCameraPath(RendererSystem& system,
       implicit_mis_weight = implicit_flag ? 1.0 : 0.0;
       explicit_mis_weight = implicit_flag ? 0.0 : 1.0;
     }
-    scene.camera().addContribution(x, y, contribution);
+    scene.camera().addXYZSpectraContribution(x, y, contribution);
   }
 }
 
