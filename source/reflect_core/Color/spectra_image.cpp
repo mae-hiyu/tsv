@@ -196,28 +196,34 @@ void XYZSpectraImage::toHdrImage(RendererSystem& system,
                               const std::size_t pass, 
                               HdrImage& hdr_image) const
 {
-  const double averager = 1.0 / (cast<double>(pass) * cast<double>(kXYZSampleSize));
+  const double averager = 1.0 / static_cast<double>(pass);
+  double x_value = 0;
+  double y_value = 0;
+  double z_value = 0;
 
   std::function<void (const std::size_t)> to_hdr_image{
-  [this, &hdr_image, averager, &color_system](const std::size_t y)
+  [this, &hdr_image, averager, &color_system, &x_value, &y_value, &z_value](const std::size_t y)
   {
     const auto& cmf = color_system.xyzColorMatchingFunction();
     const std::size_t width = widthResolution();
+
     for (std::size_t index = y * width; index < (y + 1) * width; ++index) {
       hdr_image[index] = cmf.toXyzInEmissiveCase(xbuffer_[index], ybuffer_[index], zbuffer_[index]) * averager;
-      if ( index % 10000 == 0) {
-        std::cout << "index : " << index << std::endl;
-        std::cout << "x[index]" << hdr_image[index].x() << std::endl;
-        std::cout << "y[index]" << hdr_image[index].y() << std::endl;
-        std::cout << "z[index]" << hdr_image[index].z() << std::endl;
-      }
+      x_value += hdr_image[index].x();
+      y_value += hdr_image[index].y();
+      z_value += hdr_image[index].z();
     }
   }};
-
+  
+  std::size_t width = widthResolution();
+  std::size_t height = heightResolution();
   auto& thread_pool = system.threadPool();
   constexpr std::size_t start = 0;
   auto result = thread_pool.loop(std::move(to_hdr_image), start, heightResolution()); 
   result.get();
+  std::cout << "x : " << x_value / (width * height) << std::endl;
+  std::cout << "y : " << y_value / (width * height) << std::endl;
+  std::cout << "z : " << z_value / (width * height) << std::endl;
 }
 
 /*!

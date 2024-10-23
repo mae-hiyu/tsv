@@ -195,6 +195,7 @@ void Renderer::saveImage(const std::size_t pass)
   const auto& spectra_image = film.spectraBuffer();
   if (enable_spectra_image_saving_)
     spectra_image.save(pass, file_path + ".spectra");
+  std::cout << "pass : " << pass << std::endl;
   spectra_image.toHdrImage(system(), colorSystem(), pass, *hdr_image_);
   // HDR image to LDR image
   const auto& tonemapping_method = colorSystem().tonemappingMethod();
