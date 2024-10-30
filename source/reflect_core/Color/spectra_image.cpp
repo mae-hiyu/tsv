@@ -224,6 +224,15 @@ void XYZSpectraImage::toHdrImage(RendererSystem& system,
   std::cout << "x : " << x_value / (width * height) << std::endl;
   std::cout << "y : " << y_value / (width * height) << std::endl;
   std::cout << "z : " << z_value / (width * height) << std::endl;
+  std::ofstream file("./output.txt");
+  if (file.is_open()) {
+    for (int i = 0; i < 400; ++i) {
+        file << i + 380 << " " << xHistgram[i] << "\n";
+    }
+  file.close();
+  } else {
+      std::cerr << "Unable to open file";
+  }
 }
 
 /*!

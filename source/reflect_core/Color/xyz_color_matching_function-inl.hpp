@@ -34,7 +34,10 @@ inline
 XyzColor XyzColorMatchingFunction::toXyzInEmissiveCase(
       const SpectralDistribution& xSpectra, const SpectralDistribution& ySpectra, const SpectralDistribution& zSpectra) const 
 {
-  return XyzColor{xSpectra.sum(), ySpectra.sum(), zSpectra.sum()};
+  auto x = x_bar_ * xSpectra;
+  auto y = y_bar_ * ySpectra;
+  auto z = z_bar_ * zSpectra;
+  return XyzColor{x.sum(), y.sum(), z.sum()};
 }
 
 /*!

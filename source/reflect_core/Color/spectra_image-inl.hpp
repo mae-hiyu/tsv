@@ -51,7 +51,8 @@ void XYZSpectraImage::addXYZSpectraContribution(
       const std::size_t zindex = getIndex(contribution.wavelength(i + kXYZSampleSize*2));
       xpixel[xindex] += contribution.intensity(i);
       ypixel[yindex] += contribution.intensity(i + kXYZSampleSize);
-      zpixel[zindex] += contribution.intensity(i + kXYZSampleSize*2);    
+      zpixel[zindex] += contribution.intensity(i + kXYZSampleSize*2);
+      xHistgram[xindex] += 1;
   }
 }
 

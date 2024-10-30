@@ -106,6 +106,7 @@ class XYZSpectraImage : public SpectraImageInterface
   std::vector<SpectralDistribution> xbuffer_;
   std::vector<SpectralDistribution> ybuffer_;
   std::vector<SpectralDistribution> zbuffer_;
+  double xHistgram[400] = {0};
 };
 
 //! \} Color
