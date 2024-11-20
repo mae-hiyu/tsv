@@ -128,7 +128,7 @@ Type operator*(const Type& color, const double scalar)
 }
 
 /*!
-  \details
+  \detailsddsfsad
   No detailed.
   */
 template <typename Type, zisc::EnableIfBaseOf<Color<3>, Type>> inline

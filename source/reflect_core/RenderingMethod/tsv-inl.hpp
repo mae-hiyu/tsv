@@ -290,6 +290,28 @@ void TSVPathTracing<kSampleSize>::traceCameraPath(RendererSystem& system)
   const std::tuple<SamplesXYZ, SamplesXYZ, SamplesXYZ> sampled_wavelengthsXYZ
     (sampled_wavelengthsX, sampled_wavelengthsY, sampled_wavelengthsZ);
 
+  for (std::size_t i = 0; i < kXYZSampleSize; i++){
+    xHistgram[std::get<0>(sampled_wavelengthsXYZ).wavelengths()[i] - 380] += 1;
+    yHistgram[std::get<1>(sampled_wavelengthsXYZ).wavelengths()[i] - 380] += 1;
+    zHistgram[std::get<2>(sampled_wavelengthsXYZ).wavelengths()[i] - 380] += 1;
+  }
+  std::ofstream xFile("./xWavelength.txt");
+  std::ofstream yFile("./yWavelength.txt");
+  std::ofstream zFile("./zWavelength.txt");
+
+  if (xFile.is_open() && yFile.is_open() && zFile.is_open()) {
+      for (int i = 0; i < 400; ++i) {
+          int wavelength = i + 380; // 波長を計算
+          xFile << wavelength << " " << xHistgram[i] << "\n";
+          yFile << wavelength << " " << yHistgram[i] << "\n";
+          zFile << wavelength << " " << zHistgram[i] << "\n";
+      }
+      xFile.close();
+      yFile.close();
+      zFile.close();
+  } else {
+      std::cerr << "Unable to open one or more files\n";
+  }
   // Set camera
   auto& camera = Method::sceneData().camera();
   camera.sampleLensPoint(sampler);

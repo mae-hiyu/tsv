@@ -59,6 +59,9 @@ class TSVPathTracing : public RenderingMethod<kSampleSize>
   void render(RendererSystem& system) override;
 
  private:
+    double xHistgram[400] = {0};
+    double yHistgram[400] = {0};
+    double zHistgram[400] = {0};
   //! Evaluate the explicit connection
   void evaluateExplicitConnection(const double mis_weight,
                                   const Ray& ray,

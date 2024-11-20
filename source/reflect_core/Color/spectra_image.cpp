@@ -197,42 +197,56 @@ void XYZSpectraImage::toHdrImage(RendererSystem& system,
                               HdrImage& hdr_image) const
 {
   const double averager = 1.0 / static_cast<double>(pass);
-  double x_value = 0;
-  double y_value = 0;
-  double z_value = 0;
-
-  std::function<void (const std::size_t)> to_hdr_image{
-  [this, &hdr_image, averager, &color_system, &x_value, &y_value, &z_value](const std::size_t y)
-  {
-    const auto& cmf = color_system.xyzColorMatchingFunction();
-    const std::size_t width = widthResolution();
-
+  // double x_value = 0;
+  // double y_value = 0;
+  // double z_value = 0;
+  const auto& cmf = color_system.xyzColorMatchingFunction();
+  const std::size_t width = widthResolution();
+  const std::size_t height = heightResolution();
+  for (std::size_t y = 0; y < height; ++y) {
     for (std::size_t index = y * width; index < (y + 1) * width; ++index) {
       hdr_image[index] = cmf.toXyzInEmissiveCase(xbuffer_[index], ybuffer_[index], zbuffer_[index]) * averager;
-      x_value += hdr_image[index].x();
-      y_value += hdr_image[index].y();
-      z_value += hdr_image[index].z();
+      // x_value += hdr_image[index].x();
+      // y_value += hdr_image[index].y();
+      // z_value += hdr_image[index].z();
     }
-  }};
-  
-  std::size_t width = widthResolution();
-  std::size_t height = heightResolution();
-  auto& thread_pool = system.threadPool();
-  constexpr std::size_t start = 0;
-  auto result = thread_pool.loop(std::move(to_hdr_image), start, heightResolution()); 
-  result.get();
-  std::cout << "x : " << x_value / (width * height) << std::endl;
-  std::cout << "y : " << y_value / (width * height) << std::endl;
-  std::cout << "z : " << z_value / (width * height) << std::endl;
-  std::ofstream file("./output.txt");
-  if (file.is_open()) {
-    for (int i = 0; i < 400; ++i) {
-        file << i + 380 << " " << xHistgram[i] << "\n";
-    }
-  file.close();
-  } else {
-      std::cerr << "Unable to open file";
   }
+
+
+  // std::function<void (const std::size_t)> to_hdr_image{
+  // [this, &hdr_image, averager, &color_system, &x_value, &y_value, &z_value](const std::size_t y)
+  // {
+  //   const auto& cmf = color_system.xyzColorMatchingFunction();
+  //   const std::size_t width = widthResolution();
+
+  //   for (std::size_t index = y * width; index < (y + 1) * width; ++index) {
+  //     hdr_image[index] = cmf.toXyzInEmissiveCase(xbuffer_[index], ybuffer_[index], zbuffer_[index]) * averager;
+  //     x_value += hdr_image[index].x();
+  //     y_value += hdr_image[index].y();
+  //     z_value += hdr_image[index].z();
+  //   }
+  // }};
+  
+  // std::size_t width = widthResolution();
+  // std::size_t height = heightResolution();
+  // auto& thread_pool = system.threadPool();
+  // constexpr std::size_t start = 0;
+  // auto result = thread_pool.loop(std::move(to_hdr_image), start, heightResolution()); 
+  // result.get();
+
+
+  // std::cout << "x : " << x_value / (width * height) << std::endl;
+  // std::cout << "y : " << y_value / (width * height) << std::endl;
+  // std::cout << "z : " << z_value / (width * height) << std::endl;
+  // std::ofstream file("./output.txt");
+  // if (file.is_open()) {
+  //   for (int i = 0; i < 400; ++i) {
+  //       file << i + 380 << " " << xHistgram[i] << "\n";
+  //   }
+  // file.close();
+  // } else {
+  //     std::cerr << "Unable to open file";
+  // }
 }
 
 /*!
