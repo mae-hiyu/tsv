@@ -304,6 +304,11 @@ double SpectralDistribution::sum() const
 {
   return distribution_.sum();
 }
+inline
+double SpectralDistribution::countNonZeros() const
+{
+  return distribution_.countNonZeros();
+}
 
 } // namespace reflect
 

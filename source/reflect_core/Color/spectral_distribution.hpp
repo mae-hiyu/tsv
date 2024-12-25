@@ -131,6 +131,8 @@ class SpectralDistribution
   //! Get sum of intensities
   double sum() const;
 
+  double countNonZeros() const;
+
   //! Return the emissive xyz color
   XyzColor toEmissiveXyz(const ColorSystem& color_system) const; 
 

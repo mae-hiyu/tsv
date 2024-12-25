@@ -43,11 +43,11 @@ SpectraImage::SpectraImage(const std::size_t width, const std::size_t height) :
   initialize();
 }
 
-XYZSpectraImage::XYZSpectraImage(const std::size_t width, const std::size_t height) :
-    SpectraImageInterface(width, height)
-{
-  initialize();
-}
+// XYZSpectraImage::XYZSpectraImage(const std::size_t width, const std::size_t height) :
+//     SpectraImageInterface(width, height)
+// {
+//   initialize();
+// }
 /*!
   \details
   No detailed.
@@ -58,16 +58,16 @@ void SpectraImage::clear()
     pixel.fill(0.0);
 }
 
-void XYZSpectraImage::clear()
-{
-  for (auto& pixelx : xbuffer_)
-    pixelx.fill(0.0);
-  for (auto& pixely : ybuffer_)
-    pixely.fill(0.0);
-  for (auto& pixelz : zbuffer_)
-    pixelz.fill(0.0);
+// void XYZSpectraImage::clear()
+// {
+//   for (auto& pixelx : xbuffer_)
+//     pixelx.fill(0.0);
+//   for (auto& pixely : ybuffer_)
+//     pixely.fill(0.0);
+//   for (auto& pixelz : zbuffer_)
+//     pixelz.fill(0.0);
 
-}
+// }
 
 /*!
   \details
@@ -117,49 +117,49 @@ void SpectraImage::save(const std::size_t pass, const QString& file_path) const
   spectra_image.close();
 }
 
-void XYZSpectraImage::save(const std::size_t pass, const QString& file_path) const
-{
-  // Image resolution
-  const std::uint32_t width = widthResolution();
-  const std::uint32_t height = heightResolution();
-  // Spectra information
-  constexpr std::uint16_t lambda_min = kShortestWavelength;
-  constexpr std::uint16_t delta_lambda = kWavelengthResolution;
-  constexpr std::uint16_t n = kSpectraSize;
-  // Floating point information
-  constexpr std::uint8_t float_type = 0;
-  // Calculate image byte size
-  constexpr std::size_t header_byte_size = 4 * 2 + 2 * 3 + 1;
-  const std::size_t byte_size = header_byte_size + 
-                                xbuffer_.size() * kSpectraSize * sizeof(float);
+// void XYZSpectraImage::save(const std::size_t pass, const QString& file_path) const
+// {
+//   // Image resolution
+//   const std::uint32_t width = widthResolution();
+//   const std::uint32_t height = heightResolution();
+//   // Spectra information
+//   constexpr std::uint16_t lambda_min = kShortestWavelength;
+//   constexpr std::uint16_t delta_lambda = kWavelengthResolution;
+//   constexpr std::uint16_t n = kSpectraSize;
+//   // Floating point information
+//   constexpr std::uint8_t float_type = 0;
+//   // Calculate image byte size
+//   constexpr std::size_t header_byte_size = 4 * 2 + 2 * 3 + 1;
+//   const std::size_t byte_size = header_byte_size + 
+//                                 xbuffer_.size() * kSpectraSize * sizeof(float);
 
-  // Create spectra row data
-  QByteArray spectra_row_data;
-  spectra_row_data.reserve(byte_size);
+//   // Create spectra row data
+//   QByteArray spectra_row_data;
+//   spectra_row_data.reserve(byte_size);
 
-  // Write data
-  write(&spectra_row_data, width);
-  write(&spectra_row_data, height);
-  write(&spectra_row_data, lambda_min);
-  write(&spectra_row_data, delta_lambda);
-  write(&spectra_row_data, n);
-  write(&spectra_row_data, float_type);
-  const double k = 1.0 / cast<double>(pass);
-  for (const auto spectra : xbuffer_) {
-    for (std::size_t i = 0; i < spectra.size(); ++i) {
-      const float data = k * spectra[i];
-      write(&spectra_row_data, data);
-    }
-  }
+//   // Write data
+//   write(&spectra_row_data, width);
+//   write(&spectra_row_data, height);
+//   write(&spectra_row_data, lambda_min);
+//   write(&spectra_row_data, delta_lambda);
+//   write(&spectra_row_data, n);
+//   write(&spectra_row_data, float_type);
+//   const double k = 1.0 / cast<double>(pass);
+//   for (const auto spectra : xbuffer_) {
+//     for (std::size_t i = 0; i < spectra.size(); ++i) {
+//       const float data = k * spectra[i];
+//       write(&spectra_row_data, data);
+//     }
+//   }
 
-  // Compress and save image
-  QFile spectra_image{file_path};
-  spectra_image.open(QIODevice::WriteOnly);
-//  const auto compressed_data = qCompress(spectra_row_data, -1);
-//  spectra_image.write(compressed_data);
-  spectra_image.write(spectra_row_data);
-  spectra_image.close();
-}
+//   // Compress and save image
+//   QFile spectra_image{file_path};
+//   spectra_image.open(QIODevice::WriteOnly);
+// //  const auto compressed_data = qCompress(spectra_row_data, -1);
+// //  spectra_image.write(compressed_data);
+//   spectra_image.write(spectra_row_data);
+//   spectra_image.close();
+// }
 
 /*!
   \details
@@ -191,26 +191,29 @@ void SpectraImage::toHdrImage(RendererSystem& system,
   \details
   No detailed.
   */
-void XYZSpectraImage::toHdrImage(RendererSystem& system,
-                              const ColorSystem& color_system,
-                              const std::size_t pass, 
-                              HdrImage& hdr_image) const
-{
-  const double averager = 1.0 / static_cast<double>(pass);
-  // double x_value = 0;
-  // double y_value = 0;
-  // double z_value = 0;
-  const auto& cmf = color_system.xyzColorMatchingFunction();
-  const std::size_t width = widthResolution();
-  const std::size_t height = heightResolution();
-  for (std::size_t y = 0; y < height; ++y) {
-    for (std::size_t index = y * width; index < (y + 1) * width; ++index) {
-      hdr_image[index] = cmf.toXyzInEmissiveCase(xbuffer_[index], ybuffer_[index], zbuffer_[index]) * averager;
-      // x_value += hdr_image[index].x();
-      // y_value += hdr_image[index].y();
-      // z_value += hdr_image[index].z();
-    }
-  }
+// void XYZSpectraImage::toHdrImage(RendererSystem& system,
+//                               const ColorSystem& color_system,
+//                               const std::size_t pass, 
+//                               HdrImage& hdr_image) const
+// {
+//   const double averager = 1.0 / static_cast<double>(pass);
+//   // double x_value = 0;
+//   // double y_value = 0;
+//   // double z_value = 0;
+//   const auto& cmf = color_system.xyzColorMatchingFunction();
+//   const std::size_t width = widthResolution();
+//   const std::size_t height = heightResolution();
+//   for (std::size_t y = 0; y < height; ++y) {
+//     for (std::size_t index = y * width; index < (y + 1) * width; ++index) {
+//       hdr_image[index] = cmf.toXyzInEmissiveCase(xbuffer_[index], ybuffer_[index], zbuffer_[index])*averager;
+//       // x_value += hdr_image[index].x();
+//       // y_value += hdr_image[index].y();
+//       // z_value += hdr_image[index].z();
+//       if(index == 240 * width + 80) {
+//         std::cout << "y_value : " << hdr_image[index].y() << std::endl;
+//       }
+//     }
+//   }
 
 
   // std::function<void (const std::size_t)> to_hdr_image{
@@ -247,7 +250,7 @@ void XYZSpectraImage::toHdrImage(RendererSystem& system,
   // } else {
   //     std::cerr << "Unable to open file";
   // }
-}
+// }
 
 /*!
   \details
@@ -273,12 +276,53 @@ void SpectraImage::initialize()
   buffer_.resize(buffer_size);
 }
 
+// void XYZSpectraImage::initialize()
+// {
+//   const std::size_t buffer_size = widthResolution() * heightResolution();
+//   xbuffer_.resize(buffer_size);
+//   ybuffer_.resize(buffer_size);
+//   zbuffer_.resize(buffer_size);
+// }
+
+XYZSpectraImage::XYZSpectraImage(const std::size_t width, const std::size_t height) :
+    SpectraImageInterface(width, height), image_(width, height)
+{
+  initialize();
+}
+
+void XYZSpectraImage::clear()
+{
+  initialize();
+}
+
+void XYZSpectraImage::save(const std::size_t pass, const QString& file_path) const
+{
+  std::cout << "save() is not defined" << std::endl;
+}
+
+/*!
+  \details
+  No detailed.
+  */
+void XYZSpectraImage::toHdrImage(RendererSystem& system,
+                              const ColorSystem& color_system,
+                              const std::size_t pass, 
+                              HdrImage& hdr_image) const
+{
+  const double averager = 1.0 / static_cast<double>(pass);
+  const std::size_t width = widthResolution();
+  const std::size_t height = heightResolution();
+  for (std::size_t y = 0; y < height; ++y) {
+    for (std::size_t index = y * width; index < (y + 1) * width; ++index) {
+      hdr_image[index] = image_[index] * averager * 12; 
+    }
+  }
+}
+
 void XYZSpectraImage::initialize()
 {
-  const std::size_t buffer_size = widthResolution() * heightResolution();
-  xbuffer_.resize(buffer_size);
-  ybuffer_.resize(buffer_size);
-  zbuffer_.resize(buffer_size);
+  std::cout << "XYZSpectraImage is inirialaized" << std::endl;
 }
+
 
 } // namespace reflect

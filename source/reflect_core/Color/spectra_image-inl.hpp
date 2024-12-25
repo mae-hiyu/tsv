@@ -41,18 +41,36 @@ void XYZSpectraImage::addXYZSpectraContribution(
     const std::size_t y,
     const SampledSpectra<kSampleSize>& contribution)
 {
-  const std::size_t pixel_index = widthResolution() * y + x;
-  auto& xpixel = xbuffer_[pixel_index];
-  auto& ypixel = ybuffer_[pixel_index];
-  auto& zpixel = zbuffer_[pixel_index];
+  // const std::size_t pixel_index = widthResolution() * y + x;
+  // auto& xpixel = xbuffer_[pixel_index];
+  // auto& ypixel = ybuffer_[pixel_index];
+  // auto& zpixel = zbuffer_[pixel_index];
+  // for (std::size_t i = 0; i < kXYZSampleSize; ++i) {
+  //     const std::size_t xindex = getIndex(contribution.wavelength(i));
+  //     const std::size_t yindex = getIndex(contribution.wavelength(i + kXYZSampleSize));
+  //     const std::size_t zindex = getIndex(contribution.wavelength(i + kXYZSampleSize*2));
+  //     xpixel[xindex] += contribution.intensity(i);
+  //     ypixel[yindex] += contribution.intensity(i + kXYZSampleSize);
+  //     zpixel[zindex] += contribution.intensity(i + kXYZSampleSize*2);
+  // }
+  // if(x == 80 && y == 240) {
+  //   for(std::size_t i = 4; i < 8; ++i) {
+  //     std::cout << "wavelength[" << i << "] : " << contribution.wavelength(i) << std::endl;
+  //     std::cout << "intensity[" << i << "] : " << contribution.intensity(i) << std::endl;
+  //   }
+  // }
+
+  double x_color=0,y_color=0,z_color=0;
   for (std::size_t i = 0; i < kXYZSampleSize; ++i) {
-      const std::size_t xindex = getIndex(contribution.wavelength(i));
-      const std::size_t yindex = getIndex(contribution.wavelength(i + kXYZSampleSize));
-      const std::size_t zindex = getIndex(contribution.wavelength(i + kXYZSampleSize*2));
-      xpixel[xindex] += contribution.intensity(i);
-      ypixel[yindex] += contribution.intensity(i + kXYZSampleSize);
-      zpixel[zindex] += contribution.intensity(i + kXYZSampleSize*2);
+    x_color += contribution.intensity(i);
+    y_color += contribution.intensity(i + kXYZSampleSize);
+    z_color += contribution.intensity(i + kXYZSampleSize*2);
   }
+  x_color = x_color + image_.get(x,y).x();
+  y_color = y_color + image_.get(x,y).y();
+  z_color = z_color + image_.get(x,y).z();  
+
+  image_.set(x, y, XyzColor(x_color, y_color, z_color));
 }
 
 /*!

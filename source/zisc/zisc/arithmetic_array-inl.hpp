@@ -411,6 +411,22 @@ Arithmetic ArithmeticArray<Arithmetic, kN>::sum() const
   return sum;
 }
 
+
+/*!
+  \details
+  ゼロではない要素の個数をカウントする。
+  */
+template <typename Arithmetic, std::size_t kN> inline
+Arithmetic ArithmeticArray<Arithmetic, kN>::countNonZeros() const
+{
+  std::size_t count = 0;
+  for (const auto& element : elements_) {
+    if (element != cast<Arithmetic>(0))
+      ++count;
+  }
+  return count;
+}
+
 /*!
   \details
   No detailed.

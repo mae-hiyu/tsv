@@ -373,7 +373,7 @@ void TSVPathTracing<kSampleSize>::traceCameraPath(RendererSystem& system,
     // Generate a camera ray
     Spectra next_ray_weight{wavelengths};
     auto next_ray = generateRay(x, y, sampler, memory_pool, &next_ray_weight);
-    next_ray_weight = next_ray_weight * wavelength_weight;
+    // next_ray_weight = next_ray_weight * wavelength_weight;
 
     auto ray = next_ray;
     auto ray_weight = next_ray_weight;

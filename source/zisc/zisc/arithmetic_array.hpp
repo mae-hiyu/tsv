@@ -119,6 +119,8 @@ class ArithmeticArray
   //! Get sum of elements
   Arithmetic sum() const;
 
+  Arithmetic countNonZeros() const;
+
  private:
   //! Create a instance without initialization
   ArithmeticArray(const ArithmeticArray* array);

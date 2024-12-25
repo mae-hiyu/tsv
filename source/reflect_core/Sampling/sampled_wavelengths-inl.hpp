@@ -394,8 +394,6 @@ WavelengthSampler<kSampleSize> makeImportanceSampler(
   return wavelength_sampler;
 }
 
-#include <fstream>  // ファイル出力用
-#include <iostream> // デバッグ用
 
 template <std::size_t kSampleSize> inline
 WavelengthSampler<kSampleSize> makeStratifiedSampler(
@@ -403,15 +401,9 @@ WavelengthSampler<kSampleSize> makeStratifiedSampler(
     const CumulativeDistributionFunction& cdf)
 {
   // ファイル出力用のストリーム
-  std::ofstream sample_file("./samples.txt", std::ios::app); // 追記モードで開く
-
-  if (!sample_file.is_open()) {
-    std::cerr << "Error: Unable to open samples.txt" << std::endl;
-    throw std::runtime_error("File open error");
-  }
 
   WavelengthSampler<kSampleSize> wavelength_sampler{
-  [inverse_pdf, cdf, &sample_file](Sampler& sampler)
+  [inverse_pdf, cdf](Sampler& sampler)
   {
     constexpr double k = 1.0 / cast<double>(kSampleSize);
     std::array<std::size_t, kSampleSize> wavelengths;
@@ -419,7 +411,17 @@ WavelengthSampler<kSampleSize> makeStratifiedSampler(
       // 乱数を生成
       const double sample = sampler.sample(0.0, 1.0);
 
+      std::ofstream sample_file("./samples.txt", std::ios::app); // 追記モードで開く
+
+      if (!sample_file.is_open()) {
+        std::cerr << "Error: Unable to open samples.txt" << std::endl;
+        throw std::runtime_error("File open error");
+      }
       // ファイルに出力
+      if (!sample_file) {
+        std::cerr << "Error: Unable to write to samples.txt" << std::endl;
+        throw std::runtime_error("File write error");
+      }
       sample_file << sample << "\n";
       sample_file.flush();
 
@@ -427,8 +429,8 @@ WavelengthSampler<kSampleSize> makeStratifiedSampler(
       const double y = k * (cast<double>(i) + sample);
       const std::size_t wavelength = getWavelength(cdf.inverseFunction(y));
       wavelengths[i] = wavelength;
+      sample_file.close();
     }
-    sample_file.close();
     SampledWavelengths<kSampleSize> sampled_wavelengths;
     for (std::size_t i = 0; i < kSampleSize; ++i) {
       const std::size_t wavelength = wavelengths[i];
