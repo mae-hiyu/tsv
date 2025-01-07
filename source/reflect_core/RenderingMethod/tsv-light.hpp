@@ -60,6 +60,9 @@ class TSVLightPathTracing : public RenderingMethod<kSampleSize>
   void render(RendererSystem& system) override;
 
  private:
+    double xHistgram[400] = {0};
+    double yHistgram[400] = {0};
+    double zHistgram[400] = {0};
   //! Evaluate the explicit connection
   void evaluateExplicitConnection(const double mis_weight,
                                   const Ray& ray,
@@ -107,7 +110,7 @@ class TSVLightPathTracing : public RenderingMethod<kSampleSize>
   void traceCameraPath(RendererSystem& system,
                        const int thread_id,
                        const std::size_t y,
-                       const std::tuple<SamplesXYZ, SamplesXYZ, SamplesXYZ, SamplesLight>& sampled_wavelengthsXYZLight);
+                       const std::tuple<SamplesXYZ, SamplesXYZ, SamplesXYZ>& sampled_wavelengthsXYZ);
   // must not change
   // void traceCameraPath(RendererSystem& system,
   //                      const int thread_id,

@@ -133,7 +133,12 @@ WavelengthSampler<kXYZSampleSize> makeTSVZStratifiedSampler();
 // template <std::size_t kSampleSize>
 // WavelengthSampler<kSampleSize> makeTSVLightStratifiedSampler(const World& world);
 
-
+template <std::size_t kXYZSampleSize>
+WavelengthSampler<kXYZSampleSize> makeTSVXLightStratifiedSampler(const World& world);
+template <std::size_t kXYZSampleSize>
+WavelengthSampler<kXYZSampleSize> makeTSVXLightStratifiedSampler(const World& world);
+template <std::size_t kXYZSampleSize>
+WavelengthSampler<kXYZSampleSize> makeTSVXLightStratifiedSampler(const World& world);
 
 
 

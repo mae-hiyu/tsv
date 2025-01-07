@@ -357,6 +357,47 @@ WavelengthSampler<kXYZSampleSize> makeTSVZStratifiedSampler()
   return makeStratifiedSampler<kXYZSampleSize>(inverse_pdf, cdf);
 }
 
+template <std::size_t kXYZSampleSize> inline
+WavelengthSampler<kXYZSampleSize> makeTSVXLightStratifiedSampler(const World& world)
+{
+  const auto pdfx = makeSpectra(":/property/cie_sco_2degree_xbar.csv").normalized();
+  const auto pdfLight = calculateLightPdf(world);
+  const auto pdf = (pdfx * pdfLight).normalized();
+  SpectralDistribution inverse_pdf;
+  for (std::size_t i = 0; i < pdf.size(); ++i)
+    inverse_pdf[i] = 1.0 / pdf[i];
+  CumulativeDistributionFunction cdf{pdf};
+
+  return makeStratifiedSampler<kXYZSampleSize>(inverse_pdf, cdf);
+}
+
+template <std::size_t kXYZSampleSize> inline
+WavelengthSampler<kXYZSampleSize> makeTSVYLightStratifiedSampler(const World& world)
+{
+  const auto pdfx = makeSpectra(":/property/cie_sco_2degree_ybar.csv").normalized();
+  const auto pdfLight = calculateLightPdf(world);
+  const auto pdf = (pdfx * pdfLight).normalized();
+  SpectralDistribution inverse_pdf;
+  for (std::size_t i = 0; i < pdf.size(); ++i)
+    inverse_pdf[i] = 1.0 / pdf[i];
+  CumulativeDistributionFunction cdf{pdf};
+
+  return makeStratifiedSampler<kXYZSampleSize>(inverse_pdf, cdf);
+}
+
+template <std::size_t kXYZSampleSize> inline
+WavelengthSampler<kXYZSampleSize> makeTSVZLightStratifiedSampler(const World& world)
+{
+  const auto pdfx = makeSpectra(":/property/cie_sco_2degree_zbar.csv").normalized();
+  const auto pdfLight = calculateLightPdf(world);
+  const auto pdf = (pdfx * pdfLight).normalized();
+  SpectralDistribution inverse_pdf;
+  for (std::size_t i = 0; i < pdf.size(); ++i)
+    inverse_pdf[i] = 1.0 / pdf[i];
+  CumulativeDistributionFunction cdf{pdf};
+
+  return makeStratifiedSampler<kXYZSampleSize>(inverse_pdf, cdf);
+}
 
 
 
