@@ -153,7 +153,8 @@ void TSVLightPathTracing<kSampleSize>::evaluateExplicitConnection(
   // Calculate the contribution
   const double inverse_probability = light_point.first.inversePdf();
                                     // *  sampled_light_source.inverseWeight();
-  const auto c = ray_weight * f * radiance * (geometry_term * inverse_probability);
+  const double inverse_inverse_probability = 1 / inverse_probability;
+  const auto c = ray_weight * f * radiance * (geometry_term) * inverse_inverse_probability;
   REFLECT_CHECK_POSITIVE_FLOAT(c);
   *contribution += c; 
 }
@@ -185,9 +186,19 @@ void TSVLightPathTracing<kSampleSize>::evaluateImplicitConnection(
     const auto light = emitter.makeLight(intersection, wavelengths, 
                                          sampler, memory_pool);
 
-    // Evaluate the radiance
+    const auto& world = Method::sceneData().world();
+    // Select light source and sample a point
+    const auto& light_source_sampler = world.lightSourceSampler();
+    const auto& sampled_light_source = light_source_sampler.sample(sampler);
+    const auto light_source = sampled_light_source.object();
+    const auto light_point = light_source->geometry().samplePoint(intersection, sampler);
+    
+    const double inverse_probability = light_point.first.inversePdf() * 
+                                     sampled_light_source.inverseWeight();
+    const double inverse_inverse_probability = 1 / inverse_probability;
     const auto radiance = light->evaluateRadiance(&vin, nullptr, wavelengths);
-    const auto c = radiance * ray_weight;
+    const auto c = radiance * ray_weight * inverse_inverse_probability;
+    // Evaluate the radiance
     REFLECT_CHECK_POSITIVE_FLOAT(c);
     *contribution += c;
   }
